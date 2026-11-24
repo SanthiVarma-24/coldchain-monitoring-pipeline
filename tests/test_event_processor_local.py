@@ -4,11 +4,6 @@
 import json
 from unittest.mock import patch
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
 from lambdas.event_processor.lambda_function import lambda_handler
 
 test_sensor = {
