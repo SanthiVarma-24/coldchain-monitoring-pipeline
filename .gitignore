@@ -1,0 +1,26 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local IDE settings
+.vscode/
+.idea/
+
+# Build and deployment artifacts
+build/
+dist/
+*.zip
+
+# Log files
+*.log
+logs/
