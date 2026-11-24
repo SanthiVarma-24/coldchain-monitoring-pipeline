@@ -1,7 +1,9 @@
-import random
-from datetime import datetime, timezone
-import boto3
 import json
+import random
+from datetime import UTC, datetime
+
+import boto3
+
 
 def lambda_handler(event, context):
     sqs = boto3.client("sqs")
@@ -70,7 +72,7 @@ def lambda_handler(event, context):
         if sensor["battery_pct"] < 15:
             print("Low Battery")
 
-        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        timestamp = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
         sensor["timestamp"] = timestamp
         

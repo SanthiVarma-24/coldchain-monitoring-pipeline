@@ -2,15 +2,14 @@
 """Local test for the ColdChain SQS event processor."""
 
 import json
-import os
 from unittest.mock import patch
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
 from lambdas.event_processor.lambda_function import lambda_handler
-
 
 test_sensor = {
     "sensor_id": "SENS-WH01-H001",
@@ -118,7 +117,7 @@ def test_partial_batch_failure():
 
     def mock_s3_upload(**kwargs):
         if "message-2" in kwargs["Key"]:
-            raise Exception("Simulated S3 failure for message 2")
+            raise RuntimeError("Simulated S3 failure for message 2")
 
         return {"ETag": "mock-etag"}
 

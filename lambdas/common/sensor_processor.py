@@ -12,8 +12,7 @@ Used by:
 import json
 import logging
 import os
-
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import boto3
 
@@ -89,13 +88,11 @@ def save_to_s3(sensor, message_id):
     timestamp = sensor["timestamp"]
 
     # Parse the timestamp rather than relying on fixed string positions.
-    reading_time = datetime.fromisoformat(
-        timestamp.replace("Z", "+00:00")
-    )
+    reading_time = datetime.fromisoformat(timestamp)
 
     folder_path = reading_time.strftime("%Y/%m/%d/")
     cleaned_timestamp = reading_time.astimezone(
-        timezone.utc
+        UTC
     ).strftime("%Y%m%dT%H%M%SZ")
 
     filename = f"readings_{cleaned_timestamp}_{message_id}.jsonl"

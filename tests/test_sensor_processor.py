@@ -1,7 +1,9 @@
-import pytest
 from unittest.mock import patch
 
+import pytest
+
 from lambdas.common.sensor_processor import process_sensor
+
 
 def test_process_sensor_success():
     sensor = {
