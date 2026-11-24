@@ -21,10 +21,9 @@ import json
 import logging
 import os
 
-from lambdas.common.sensor_processor import process_sensor
-
 import boto3
 
+from lambdas.common.sensor_processor import process_sensor
 
 # --------------------------------------------------
 # Configuration

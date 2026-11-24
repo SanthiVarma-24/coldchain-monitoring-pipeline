@@ -1,12 +1,13 @@
 import json
-from unittest.mock import patch, call
+from unittest.mock import call, patch
 
 from lambdas.long_poll_consumer.lambda_function import (
+    SQS_QUEUE_URL,
+    lambda_handler,
     process_messages,
     receive_messages,
-    lambda_handler,
-    SQS_QUEUE_URL,
 )
+
 
 def test_successful_message_processing():
     sensor = {

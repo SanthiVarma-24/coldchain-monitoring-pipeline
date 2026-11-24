@@ -14,7 +14,6 @@ import os
 
 from lambdas.common.sensor_processor import process_sensor
 
-
 # --------------------------------------------------
 # Configuration
 # --------------------------------------------------

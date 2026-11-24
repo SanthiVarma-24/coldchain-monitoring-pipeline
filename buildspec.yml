@@ -1,0 +1,45 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "ap-south-2"
+    AWS_EC2_METADATA_DISABLED: "true"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.13
+    commands:
+      - echo "Installing project dependencies"
+      - python -m pip install --upgrade pip
+      - python -m pip install -r requirements.txt
+  
+  pre_build:
+    commands:
+      - echo "Validating project structure"
+      - test -f lambdas/data_generator/lambda_function.py
+      - test -f lambdas/event_processor/lambda_function.py
+      - test -f lambdas/event_processor/requirements.txt
+      - test -f lambdas/long_poll_consumer/lambda_function.py
+      - test -f lambdas/common/sensor_processor.py
+      - test -f scripts/package_lambdas.py
+      - test -f scripts/deploy.sh
+      - echo "Running Python lint checks"
+      - python -m ruff check lambdas/ scripts/ tests/
+      - echo "Running unit tests"
+      - python -m pytest tests/ -v
+  
+  build:
+    commands:
+      - echo "Creating Lambda deployment packages"
+      - python scripts/package_lambdas.py
+      - ls -lh build/*.zip
+  
+  post_build:
+    commands:
+      - |
+        if [ "$CODEBUILD_BUILD_SUCCEEDING" != "1" ]; then
+          echo "Build or tests failed. Skipping deployment."
+          exit 1
+        fi
+      - bash scripts/deploy.sh
